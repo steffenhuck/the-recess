@@ -1,49 +1,401 @@
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
-<meta name=Generator content="Microsoft Word 15 (filtered)">
-<style>
-<!--
- /* Font Definitions */
- @font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
- /* Style Definitions */
- p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin-top:0cm;
-	margin-right:0cm;
-	margin-bottom:8.0pt;
-	margin-left:0cm;
-	line-height:107%;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-.MsoChpDefault
-	{font-family:"Calibri",sans-serif;}
-.MsoPapDefault
-	{margin-bottom:8.0pt;
-	line-height:107%;}
-@page WordSection1
-	{size:595.3pt 841.9pt;
-	margin:70.85pt 70.85pt 2.0cm 70.85pt;}
-div.WordSection1
-	{page:WordSection1;}
--->
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Recess</title>
+  <script data-goatcounter="https://steffenhuck.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
+    :root {
+      --text: #f0ece0;
+      --muted: rgba(240, 236, 224, 0.5);
+      --max-width: 660px;
+    }
+
+    body {
+      min-height: 100vh;
+      color: var(--text);
+      font-family: 'IM Fell English', Georgia, serif;
+      font-size: 21px;
+      line-height: 1.8;
+      position: relative;
+      overflow-x: hidden;
+      background-color: #061820;
+    }
+
+    .bg-layer1 {
+      position: fixed;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background:
+        radial-gradient(ellipse at 20% 20%, #0a4a6e 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, #0d3d5c 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, #1a6b5a 0%, transparent 45%),
+        radial-gradient(ellipse at 20% 80%, #0e5c7a 0%, transparent 45%),
+        radial-gradient(ellipse at 50% 50%, #0a2a3a 0%, transparent 60%);
+      animation: swirl 18s ease-in-out infinite alternate;
+      z-index: -2;
+      will-change: transform;
+    }
+
+    .bg-layer2 {
+      position: fixed;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background:
+        radial-gradient(ellipse at 60% 40%, rgba(180, 140, 40, 0.18) 0%, transparent 40%),
+        radial-gradient(ellipse at 30% 70%, rgba(20, 120, 140, 0.25) 0%, transparent 45%),
+        radial-gradient(ellipse at 70% 60%, rgba(10, 80, 110, 0.3) 0%, transparent 50%);
+      animation: swirl2 24s ease-in-out infinite alternate;
+      z-index: -2;
+      will-change: transform;
+    }
+
+    @keyframes swirl {
+      0%   { transform: rotate(0deg) scale(1); }
+      25%  { transform: rotate(8deg) scale(1.05); }
+      50%  { transform: rotate(-5deg) scale(1.08); }
+      75%  { transform: rotate(12deg) scale(1.03); }
+      100% { transform: rotate(-8deg) scale(1.06); }
+    }
+
+    @keyframes swirl2 {
+      0%   { transform: rotate(0deg) scale(1.02) translate(2%, 1%); }
+      33%  { transform: rotate(-10deg) scale(1.06) translate(-3%, 2%); }
+      66%  { transform: rotate(7deg) scale(1.04) translate(4%, -2%); }
+      100% { transform: rotate(-5deg) scale(1.08) translate(-2%, 3%); }
+    }
+
+    /* Ripple overlay for water effect */
+    .ripple {
+      position: fixed;
+      inset: 0;
+      background:
+        repeating-linear-gradient(
+          180deg,
+          transparent,
+          transparent 40px,
+          rgba(255,255,255,0.012) 40px,
+          rgba(255,255,255,0.012) 41px
+        );
+      animation: ripple 8s linear infinite;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    @keyframes ripple {
+      0%   { transform: translateY(0); }
+      100% { transform: translateY(41px); }
+    }
+
+    /* Light shimmer */
+    .shimmer {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 30%, rgba(255,220,100,0.06) 0%, transparent 55%);
+      animation: shimmer 6s ease-in-out infinite alternate;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    @keyframes shimmer {
+      0%   { opacity: 0.5; transform: translateY(-5px) scale(1); }
+      100% { opacity: 1; transform: translateY(5px) scale(1.05); }
+    }
+
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 72px 32px 100px;
+      opacity: 0;
+      animation: fadeIn 2s ease forwards;
+      animation-delay: 0.5s;
+      position: relative;
+      z-index: 1;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .title {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      margin-bottom: 10px;
+    }
+
+    .cast-label {
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 20px;
+      margin-bottom: 6px;
+    }
+
+    .cast {
+      font-size: 0.95rem;
+      font-style: italic;
+      color: var(--text);
+      opacity: 0.7;
+      letter-spacing: 0.04em;
+    }
+
+    .stage {
+      font-style: italic;
+      color: var(--muted);
+      font-size: 0.88em;
+      margin: 1.3rem 0;
+      line-height: 1.7;
+    }
+
+    .speaker {
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 1.6rem;
+      margin-bottom: 0.15rem;
+    }
+
+    .line {
+      color: var(--text);
+      line-height: 1.8;
+    }
+
+    .direction-inline {
+      font-style: italic;
+      font-size: 0.82rem;
+      color: var(--muted);
+      display: block;
+      margin: 0.2rem 0 0.4rem;
+    }
+
+    .beat {
+      font-style: italic;
+      font-size: 0.78rem;
+      color: var(--muted);
+      display: block;
+      margin: 0.6rem 0;
+    }
+
+    .signature {
+      text-align: center;
+      margin-top: 80px;
+      font-size: 0.8rem;
+      letter-spacing: 0.25em;
+    }
+
+    .signature a {
+      text-decoration: none;
+      color: var(--muted);
+      font-style: normal;
+      transition: color 0.3s ease;
+    }
+
+    .signature a:hover {
+      color: var(--text);
+    }
+
+    @media (max-width: 600px) {
+      body { font-size: 19px; }
+      .container { padding: 48px 22px 80px; }
+    }
+  </style>
 </head>
+<body>
 
-<body lang=DE>
+  <div class="bg-layer1"></div>
+  <div class="bg-layer2"></div>
+  <div class="ripple"></div>
+  <div class="shimmer"></div>
 
-<div class=WordSection1>
+  <div class="container">
 
-<p class=MsoNormal>xx</p>
+    <div class="header">
+      <div class="title">The Recess</div>
+      <div class="subtitle">A Play</div>
+      <div class="cast-label">Cast</div>
+      <div class="cast">The First Student &nbsp;&middot;&nbsp; The New Student</div>
+    </div>
 
-</div>
+    <p class="stage">(One of the private pool suites at the Palais Namaskar in Marrakesh. The First Student and the New Student sit in swimming trunks by the pool, surrounded by high walls, affording them privacy.)</p>
+
+    <p class="speaker">The New Student</p>
+    <p class="line">You are already so tanned.</p>
+
+    <p class="speaker">The First Student</p>
+    <p class="line">I am, aren&rsquo;t I?</p>
+
+    <p class="speaker">The New Student</p>
+    <p class="line">I&rsquo;m still so pale.</p>
+
+    <p class="speaker">The First Student</p>
+    <p class="line">You have a little sunburn on your earlobes.</p>
+
+    <p class="speaker">The New Student</p>
+    <p class="line">Hell.</p>
+
+    <p class="speaker">The First Student</p>
+    <p class="line">I did tell you to be thorough with the sunscreen.</p>
+
+    <p class="speaker">The New Student</p>
+    <p class="line">Ever read <em>Si le grain ne meurt</em>?</p>
+
+    <p class="speaker">The First Student</p>
+    <p class="line">The death of the grain?</p>
+
+    <p class="speaker">The New Student</p>
+    <p class="line">Unless a grain of wheat falls into the earth and dies, it remains alone; but if it dies, it bears much fruit &hellip;</p>
+
+    <p class="speaker">The First Student</p>
+    <p class="line">Dying is for later.</p>
+
+    <p class="speaker">The New Student</p>
+    <p class="line">Much later, I hope.</p>
+
+    <p class="speaker">The First Student</p>
+    <p class="line">Let&rsquo;s postpone it until after this break.</p>
+
+    <p class="speaker">The New Student</p>
+    <p class="line">Let&rsquo;s &hellip;</p>
+
+    <p class="speaker">The First Student</p>
+    <p class="line">Shall we have a dip?</p>
+
+    <p class="stage">(The New Student stands and jumps into the pool.)</p>
+
+    <p class="stage">(The First Student follows.)</p>
+
+    <p class="speaker">The New Student</p>
+    <p class="line">Refreshing.</p>
+
+    <p class="stage">(The First Student floats on his back.)</p>
+
+    <p class="stage">(The New Student dunks the First Student&rsquo;s head underwater.)</p>
+
+    <p class="speaker">The First Student</p>
+    <span class="direction-inline">(after resurfacing)</span>
+    <p class="line">Naughty.</p>
+
+    <p class="stage">(The First Student grabs the New Student&rsquo;s head and dunks him. A little skirmish ensues. They dunk each other several times.)</p>
+
+    <p class="speaker">The New Student</p>
+    <p class="line">Stop it. I need to breathe.</p>
+
+    <p class="speaker">The First Student</p>
+    <p class="line">Me too.</p>
+
+    <span class="beat">(A pause.)</span>
+
+    <p class="speaker">The First Student</p>
+    <p class="line">I&rsquo;m grateful to your mother.</p>
+
+    <p class="speaker">The New Student</p>
+    <p class="line">For paying for this?</p>
+
+    <p class="speaker">The First Student</p>
+    <p class="line">For sending you to the institute.</p>
+
+    <p class="speaker">The New Student</p>
+    <p class="line">I have to tell you something.</p>
+
+    <p class="speaker">The First Student</p>
+    <p class="line">What?</p>
+
+    <p class="speaker">The New Student</p>
+    <p class="line">A secret.</p>
+
+    <p class="speaker">The First Student</p>
+    <p class="line">I&rsquo;m getting intrigued.</p>
+
+    <p class="speaker">The New Student</p>
+    <p class="line">Punishable by death.</p>
+
+    <p class="speaker">The First Student</p>
+    <p class="line">Death or hell?</p>
+
+    <p class="speaker">The New Student</p>
+    <p class="line">Death.</p>
+
+    <p class="stage">(The First Student splashes water in the New Student&rsquo;s face.)</p>
+
+    <p class="speaker">The New Student</p>
+    <p class="line">I&rsquo;m serious.</p>
+
+    <p class="speaker">The First Student</p>
+    <p class="line">Then you shall be drowned!</p>
+
+    <p class="stage">(He dunks the New Student&rsquo;s head and holds him under for a while.)</p>
+
+    <p class="stage">(The New Student escapes and catches his breath.)</p>
+
+    <p class="speaker">The New Student</p>
+    <p class="line">What do you think &mdash; who is the chairperson of the institute?</p>
+
+    <p class="speaker">The First Student</p>
+    <p class="line">The director himself?</p>
+
+    <p class="speaker">The New Student</p>
+    <p class="line">Don&rsquo;t be naive.</p>
+
+    <p class="speaker">The First Student</p>
+    <span class="direction-inline">(after hesitating for a moment)</span>
+    <p class="line">Napoleon?</p>
+
+    <p class="speaker">The New Student</p>
+    <p class="line">Warmer.</p>
+
+    <p class="speaker">The First Student</p>
+    <p class="line">Don&rsquo;t tell me &hellip;</p>
+
+    <p class="speaker">The New Student</p>
+    <p class="line">Yes. It&rsquo;s her.</p>
+
+    <p class="speaker">The First Student</p>
+    <p class="line">Fuck-a-doodle-doo.</p>
+
+    <p class="speaker">The New Student</p>
+    <p class="line">Talking about fucking &hellip;</p>
+
+    <p class="speaker">The First Student</p>
+    <p class="line">Let&rsquo;s.</p>
+
+    <div class="signature">
+      <a href="https://steffenhuck.github.io/">steffen huck</a>
+    </div>
+
+  </div>
 
 </body>
-
 </html>
