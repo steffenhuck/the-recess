@@ -7,24 +7,25 @@
   <script data-goatcounter="https://steffenhuck.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
       --text: #f0ece0;
-      --muted: rgba(240, 236, 224, 0.52);
+      --muted: rgba(240, 236, 224, 0.50);
+      --stage: rgba(240, 236, 224, 0.76);
       --max-width: 660px;
     }
 
     body {
       min-height: 100vh;
       color: var(--text);
-      font-family: 'IM Fell English', Georgia, serif;
+      font-family: 'Playfair Display', Georgia, serif;
       font-size: 21px;
       line-height: 1.8;
       overflow-x: hidden;
-      background: #0a2a3a;
+      background: #0e3a4a;
     }
 
     #bg {
@@ -57,8 +58,8 @@
 
     .title {
       font-size: clamp(2rem, 5vw, 3rem);
-      font-weight: 400;
-      letter-spacing: 0.2em;
+      font-weight: 500;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--text);
       margin-bottom: 10px;
@@ -85,13 +86,13 @@
       font-size: 0.95rem;
       font-style: italic;
       color: var(--text);
-      opacity: 0.7;
+      opacity: 0.65;
       letter-spacing: 0.04em;
     }
 
     .stage {
       font-style: italic;
-      color: rgba(240, 236, 224, 0.76);
+      color: var(--stage);
       font-size: 0.88em;
       margin: 1.4rem 0;
       line-height: 1.7;
@@ -114,7 +115,7 @@
     .direction-inline {
       font-style: italic;
       font-size: 0.88em;
-      color: rgba(240, 236, 224, 0.76);
+      color: var(--stage);
       display: block;
       margin: 0.2rem 0 0.4rem;
     }
@@ -129,7 +130,7 @@
     .signature a {
       text-decoration: none;
       color: var(--muted);
-      font-style: normal;
+      font-style: italic;
       transition: color 0.3s ease;
     }
 
@@ -310,21 +311,22 @@
     resize();
     window.addEventListener('resize', resize);
 
-    // Colour blobs — lighter, more aquatic palette
+    // Midday pool — richer aquatics, lifted from original dark version
     const blobs = [
-      { x: 0.25, y: 0.25, r: 0.60, color: [15, 90, 140],  vx:  0.00022, vy:  0.00015 },
-      { x: 0.75, y: 0.75, r: 0.55, color: [10, 110, 130], vx: -0.00018, vy: -0.00012 },
-      { x: 0.75, y: 0.25, r: 0.50, color: [20, 140, 120], vx: -0.00025, vy:  0.00018 },
-      { x: 0.25, y: 0.75, r: 0.52, color: [18, 100, 150], vx:  0.00020, vy: -0.00016 },
-      { x: 0.50, y: 0.50, r: 0.65, color: [8,  55,  90],  vx:  0.00010, vy:  0.00012 },
-      { x: 0.60, y: 0.30, r: 0.38, color: [200, 160, 40], vx: -0.00015, vy:  0.00020, alpha: 0.12 },
+      { x: 0.25, y: 0.25, r: 0.60, color: [ 20, 140, 180], vx:  0.00022, vy:  0.00015, alpha: 0.85 },
+      { x: 0.75, y: 0.75, r: 0.55, color: [ 15, 160, 150], vx: -0.00018, vy: -0.00012, alpha: 0.80 },
+      { x: 0.75, y: 0.25, r: 0.50, color: [ 30, 180, 160], vx: -0.00025, vy:  0.00018, alpha: 0.75 },
+      { x: 0.25, y: 0.75, r: 0.52, color: [ 25, 130, 170], vx:  0.00020, vy: -0.00016, alpha: 0.75 },
+      { x: 0.50, y: 0.50, r: 0.65, color: [ 10,  80, 120], vx:  0.00010, vy:  0.00012, alpha: 0.70 },
+      { x: 0.60, y: 0.30, r: 0.38, color: [ 40, 200, 180], vx: -0.00015, vy:  0.00020, alpha: 0.55 },
+      { x: 0.40, y: 0.65, r: 0.35, color: [220, 180,  50], vx:  0.00018, vy: -0.00014, alpha: 0.12 },
     ];
 
     function draw() {
       const w = canvas.width;
       const h = canvas.height;
 
-      ctx.fillStyle = '#082030';
+      ctx.fillStyle = '#0e3a4a';
       ctx.fillRect(0, 0, w, h);
 
       blobs.forEach(b => {
@@ -336,10 +338,9 @@
         const cx = b.x * w;
         const cy = b.y * h;
         const radius = b.r * Math.max(w, h);
-        const alpha = b.alpha !== undefined ? b.alpha : 0.80;
 
         const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
-        grad.addColorStop(0, `rgba(${b.color[0]},${b.color[1]},${b.color[2]},${alpha})`);
+        grad.addColorStop(0, `rgba(${b.color[0]},${b.color[1]},${b.color[2]},${b.alpha})`);
         grad.addColorStop(1, `rgba(${b.color[0]},${b.color[1]},${b.color[2]},0)`);
 
         ctx.fillStyle = grad;
